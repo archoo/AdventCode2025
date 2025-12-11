@@ -9,7 +9,6 @@ for c in rawdata[0]:
   beams.append('.') if c=='.' else beams.append('|')
 
 newdata = []
-
 def refresh():
   turtle()
   for y in range(len(newdata)):
@@ -21,6 +20,7 @@ def refresh():
       put(newdata[y][x],x,y,col)
 
 t = 0
+paths = [0 if c == '.' else 1 for c in rawdata[0]]
 for y in range(h):
   line = ''
   for x in range(w):
@@ -35,7 +35,11 @@ for y in range(h):
       col = 34
       line += ch
     if rawdata[y][x] == '^':
-      if beams[x] == '|': t+=1
+      if beams[x] == '|': 
+        t+=1
+        paths[x-1]+=paths[x]
+        paths[x+1]+=paths[x]
+        paths[x] = 0
       beams[x-1] = '|'
       beams[x] = '.'
       beams[x+1] = '|'
@@ -45,45 +49,5 @@ for y in range(h):
   newdata.append(list(line))
 
 refresh()
-print(len([x for x in beams if x=='|']), t)
-
-finalpaths,stable = set(),True
-t = 0
-x,y = start
-
-def search(node,path):
-  global t
-  step = '.'
-  if node is None:
-    return
-  path.append(node)
-  x,y = node
-  # put(newdata[y][x],x,y,39)
-  try:
-    step = newdata[y+2][x]
-  except IndexError:
-    t+=1
-    if t%100000==0:
-      mv(0,h+2)
-      print(t)
-    path.pop()
-    # put(newdata[y][x],x,y,39)
-    return
-  if step == '|':
-    search((x,y+2),path)
-  if step == '^':
-    search((x-1,y+2),path)
-    search((x+1,y+2),path)
-  path.pop()
-  # put(newdata[y][x],x,y,39)
-  return
-
-search(start,[])
-
-# for pth in finalpaths:
-#   refresh()
-#   for i,j in pth:
-#     put(newdata[j][i],i,j,39)
-#   time.sleep(0.1)
-# mv(0,h+2)
-# print(len(finalpaths))
+print(len([x for x in beams if x=='|']), t, sum(paths))
+print(paths)

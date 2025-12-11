@@ -89,3 +89,30 @@ def plotLine(x0, y0, x1, y1):
       error = error + dx
       y0 = y0 + sy
   return line
+
+def dfs(node,path):
+  global t
+  step = '.'
+  if node is None:
+    return
+  path.append(node)
+  x,y = node
+  # put(newdata[y][x],x,y,39)
+  try:
+    step = newdata[y+2][x]
+  except IndexError:
+    t+=1
+    if t%100000==0:
+      mv(0,h+2)
+      print(t)
+    path.pop()
+    # put(newdata[y][x],x,y,39)
+    return
+  if step == '|':
+    search((x,y+2),path)
+  if step == '^':
+    search((x-1,y+2),path)
+    search((x+1,y+2),path)
+  path.pop()
+  # put(newdata[y][x],x,y,39)
+  return
