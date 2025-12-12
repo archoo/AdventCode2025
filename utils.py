@@ -15,6 +15,23 @@ dir = {'N':(0,-1),
        'W':(-1,0),
        'NW':(-1,-1)}
 
+colours = {
+'red': 31,
+'green': 32,
+'yellow': 33,
+'blue': 34,
+'magenta': 35,
+'cyan': 36,
+'white': 37,
+'RED': 91,
+'GREEN': 92,
+'YELLOW': 93,
+'BLUE': 94,
+'MAGENTA': 95,
+'CYAN': 96,
+'WHITE': 97,
+}
+
 import os
 def turtle():
   os.system('cls & color')
@@ -90,29 +107,21 @@ def plotLine(x0, y0, x1, y1):
       y0 = y0 + sy
   return line
 
-def dfs(node,path):
-  global t
+def dfs(node,path,world):
   step = '.'
   if node is None:
     return
   path.append(node)
   x,y = node
-  # put(newdata[y][x],x,y,39)
   try:
-    step = newdata[y+2][x]
+    step = world[y+1][x]
   except IndexError:
-    t+=1
-    if t%100000==0:
-      mv(0,h+2)
-      print(t)
     path.pop()
-    # put(newdata[y][x],x,y,39)
     return
   if step == '|':
-    search((x,y+2),path)
+    dfs((x,y+2),path)
   if step == '^':
-    search((x-1,y+2),path)
-    search((x+1,y+2),path)
+    dfs((x-1,y+2),path)
+    dfs((x+1,y+2),path)
   path.pop()
-  # put(newdata[y][x],x,y,39)
   return

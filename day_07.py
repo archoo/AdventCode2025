@@ -1,4 +1,4 @@
-import sys,os,re,itertools,time,functools
+import sys,os,re,itertools,time,functools,random
 from utils import *
 
 rawdata = [list(r.strip()) for r in open('inputs/day_07.txt','rt').readlines()]
@@ -14,9 +14,9 @@ def refresh():
   for y in range(len(newdata)):
     for x in range(len(newdata[0])):
       match newdata[y][x]:
-        case '.': col = 31
-        case '|': col = 34
-        case '^': col = 37
+        case '.': col = 30
+        case '|': col = colours['RED']
+        case '^': col = colours['green']
       put(newdata[y][x],x,y,col)
 
 t = 0
@@ -50,4 +50,18 @@ for y in range(h):
 
 refresh()
 print(len([x for x in beams if x=='|']), t, sum(paths))
-print(paths)
+
+x,y = start
+while True:
+  put(newdata[y][x],x,y,col)
+  y+=1
+  if y>=h:
+    x,y = start
+    continue
+  if newdata[y][x] == '|':
+    col = random.choice(list(colours.values()))
+    continue
+  if newdata[y][x] == '^':
+    col = colours['WHITE']
+    x += random.choice([-1,1])
+  
