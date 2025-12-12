@@ -16,6 +16,7 @@ dir = {'N':(0,-1),
        'NW':(-1,-1)}
 
 colours = {
+'black': 30,
 'red': 31,
 'green': 32,
 'yellow': 33,
@@ -107,7 +108,7 @@ def plotLine(x0, y0, x1, y1):
       y0 = y0 + sy
   return line
 
-def dfs(node,path,world):
+def depthfirstsearch(node,path,world):
   step = '.'
   if node is None:
     return
@@ -124,4 +125,16 @@ def dfs(node,path,world):
     dfs((x-1,y+2),path)
     dfs((x+1,y+2),path)
   path.pop()
+  return
+
+def floodfill(node):
+  x,y = node
+  if x<0 or x>=w: return
+  if y<0 or y>=h: return
+  if plan[y][x] != '.': return
+  plan[y][x] = '%'
+  fill((x,y+1))
+  fill((x,y-1))
+  fill((x+1,y))
+  fill((x-1,y))
   return
