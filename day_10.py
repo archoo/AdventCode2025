@@ -6,7 +6,7 @@ def pb(n,l):
   return f.format(n)
 
 tot = 0
-rawdata = [r.strip() for r in open('inputs/day_10.txt','rt').readlines()]
+rawdata = [r.strip() for r in open('inputs/day_10_test.txt','rt').readlines()]
 for row in rawdata:
   print(row)
   l = re.search(r'\[(.*)\]',row).group(1)
